@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Knowledge Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Personal Knowledge Assistant</h1>
+            <p>Upload your documents and ask questions</p>
+        </div>
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="upload-section">
+                    <h3>📁 Upload Documents</h3>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="fileInput" multiple accept=".pdf,.txt,.docx,.doc">
+                        <label for="fileInput" class="file-input-label">Choose Files</label>
+                    </div>
+                    <div id="selectedFiles" class="selected-files"></div>
+                    <button id="uploadBtn" class="upload-btn" disabled>Upload & Process</button>
+                </div>
+                <div class="status-section">
+                    <h3>📊 Status</h3>
+                    <div class="status-item">
+                        <span>Documents Ready:</span>
+                        <span class="status-value" id="docStatus">No</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Chunks Processed:</span>
+                        <span class="status-value" id="chunksCount">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-area">
+                <div class="messages" id="messages">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💬</div>
+                        <h2>Welcome!</h2>
+                        <p>Upload some documents to get started, then ask me anything.</p>
+                    </div>
+                </div>
+                <div class="input-area">
+                    <div class="input-wrapper">
+                        <input type="text" id="queryInput" placeholder="Ask a question..." disabled>
+                        <button id="sendBtn" class="send-btn" disabled>Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
