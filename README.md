@@ -1,18 +1,18 @@
-# 🧠 RAG-Based Knowledge Assistant
+# RAG-Based Knowledge Assistant
 
 A simple RAG (Retrieval-Augmented Generation) chatbot that allows you to **upload documents, process them, and ask questions** using AI.  
 Built with **FastAPI**, **ChromaDB**, **Sentence-Transformers**, and a **HTML/CSS/JS frontend**.
 
 ---
 
-## 📸 Screenshot
+## Screenshot
 > Add your screenshot at: `screenshots/app.png`
 
 ![App Screenshot](./screenshots/app.png)
 
 ---
 
-## 🚀 Features
+## Features
 - Upload PDF/TXT documents  
 - Automatic text extraction & chunking  
 - Embedding generation using Sentence-Transformers  
@@ -22,7 +22,7 @@ Built with **FastAPI**, **ChromaDB**, **Sentence-Transformers**, and a **HTML/CS
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ### 1️⃣ Clone the Repo
 ```bash
