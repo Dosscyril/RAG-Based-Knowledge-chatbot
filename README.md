@@ -1,12 +1,11 @@
 # RAG-Based Knowledge Assistant
 
-A simple RAG (Retrieval-Augmented Generation) chatbot that allows you to **upload documents, process them, and ask questions** using AI.  
+A simple RAG (Retrieval-Augmented Generation) chatbot that allows you to **upload documents, process them, and ask questions** using Gemini API.  
 Built with **FastAPI**, **ChromaDB**, **Sentence-Transformers**, and a **HTML/CSS/JS frontend**.
 
 ---
 
 ## Screenshot
-> Add your screenshot at: `screenshots/app.png`
 
 ![App Screenshot](./screenshots/app.png)
 
