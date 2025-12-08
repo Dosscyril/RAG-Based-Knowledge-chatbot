@@ -5,14 +5,20 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import os
 import shutil
+
 from backend.document_processor import DocumentProcessor
 from backend.embeddings import VectorStore
 from backend.retriever import KnowledgeAssistant
+from backend.config import CHROMA_DIR  # ✅ ADDED THIS
+
 app = FastAPI(title="Personal Knowledge Assistant")
+
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
+
 @app.get("/")
 def serve_index():
     return FileResponse("frontend/index.html")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -20,12 +26,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 doc_processor = DocumentProcessor()
-vector_store = VectorStore()
+
+# ✅ ONLY CHANGE — added persist_dir=CHROMA_DIR
+vector_store = VectorStore(persist_dir=CHROMA_DIR)
+
 assistant = None
+
 class Query(BaseModel):
     question: str
     k: int = 4
+
 @app.on_event("startup")
 async def startup_event():
     global assistant
@@ -35,6 +47,7 @@ async def startup_event():
         print("Vector store loaded successfully.")
     except Exception as e:
         print(f"No existing vector store found: {e}")
+
 @app.post("/upload")
 async def upload_documents(files: list[UploadFile] = File(...)):
     global assistant
@@ -45,7 +58,9 @@ async def upload_documents(files: list[UploadFile] = File(...)):
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
         uploaded_files.append(file_path)
+
     all_chunks = doc_processor.process_documents(uploaded_files)
+
     if assistant is None:
         vs = vector_store.create_vectorstore(all_chunks)
         assistant = KnowledgeAssistant(vs)
@@ -56,6 +71,7 @@ async def upload_documents(files: list[UploadFile] = File(...)):
         "message": f"Successfully processed {len(files)} files",
         "chunks_created": len(all_chunks),
     }
+
 @app.post("/query")
 async def query_knowledge_base(query: Query):
     if assistant is None:
@@ -69,9 +85,11 @@ async def query_knowledge_base(query: Query):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "has_documents": assistant is not None}
+
 if __name__ == "__main__":
     print("🌐 Frontend available at: http://localhost:8000")
     import uvicorn
