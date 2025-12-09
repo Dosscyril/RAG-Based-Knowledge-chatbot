@@ -2,9 +2,11 @@ streamlit
 langchain
 langchain-community
 chromadb
-sentence-transformers
+sentence-transformers>=2.2.2
+torch>=2.0.0
 google-generativeai
 python-dotenv
 docx2txt
 pypdf
 protobuf==3.20.*
+numpy  # Add this
