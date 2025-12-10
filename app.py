@@ -1,19 +1,15 @@
 import os
 import streamlit as st
 
-from backend.config import CHROMA_DIR  # uses your existing config
+from backend.config import CHROMA_DIR
 from backend.document_processor import DocumentProcessor
 from backend.embeddings import VectorStore
 from backend.retriever import KnowledgeAssistant
-
-# ----------------- STREAMLIT PAGE CONFIG -----------------
 st.set_page_config(
     page_title="Personal Knowledge Assistant",
     page_icon="🧠",
     layout="wide",
 )
-
-# ----------------- CUSTOM CSS -----------------
 st.markdown("""
 <style>
 .source-box {
@@ -30,8 +26,6 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
-# ----------------- INITIALIZE SESSION STATE -----------------
 if "doc_processor" not in st.session_state:
     st.session_state.doc_processor = DocumentProcessor()
 
@@ -52,11 +46,7 @@ if "messages" not in st.session_state:
 
 if "chunks_count" not in st.session_state:
     st.session_state.chunks_count = 0
-
-
-# ------------------------------------------------------------
-# SIDEBAR — FILE UPLOAD
-# ------------------------------------------------------------
+#side bar 
 st.sidebar.title("📁 Upload Documents")
 
 uploaded_files = st.sidebar.file_uploader(
@@ -107,10 +97,7 @@ else:
 
 st.sidebar.write(f"Chunks Processed: **{st.session_state.chunks_count}**")
 
-
-# ------------------------------------------------------------
-# MAIN UI — CHAT AREA
-# ------------------------------------------------------------
+#chat area
 st.title("🧠 Personal Knowledge Assistant")
 st.caption("Upload documents on the left & ask questions below.")
 
@@ -142,11 +129,7 @@ with chat_container:
                             """,
                             unsafe_allow_html=True,
                         )
-
-
-# ------------------------------------------------------------
-# CHAT INPUT
-# ------------------------------------------------------------
+#chat input 
 query = st.chat_input("Ask a question about your documents...")
 
 if query:
@@ -154,7 +137,7 @@ if query:
         with st.chat_message("assistant"):
             st.error("Please upload documents first.")
     else:
-        # Store user message
+        # store user message
         st.session_state.messages.append({"role": "user", "content": query})
 
         with st.chat_message("assistant"):
@@ -170,7 +153,7 @@ if query:
 
                 st.markdown(answer)
 
-                # Show sources under assistant message
+                # show sources under assistant message
                 if sources:
                     st.markdown("**📚 Sources:**")
                     for src in sources:
@@ -186,7 +169,7 @@ if query:
                             unsafe_allow_html=True,
                         )
 
-        # Store assistant reply
+        # store assistant reply
         st.session_state.messages.append(
             {"role": "assistant", "content": answer, "sources": sources}
         )
